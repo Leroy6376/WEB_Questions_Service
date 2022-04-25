@@ -1,0 +1,57 @@
+{% extends "inc/nav_bar_with_login.html" %}
+{% load static %}
+
+{% block login %}
+    <a class="nav-link active Login" aria-current="page" href="Leroy_profile.html">Leroy</a>
+{% endblock login %}
+
+{% block avatar_img %}
+    <img src="{% static "img/Avatar.png" %}" class="Avatar_img">
+{% endblock avatar_img %}
+
+{% block tags_panel %}
+    <h1 class="mt-5 Tags-menu" text-align="center">Popular Tags</h1>
+    <a class="Tags" href="tag_sort.html">
+        <button type="button" class="btn btn-outline-primary Tags_Buttons">Perl</button>
+    </a>
+    <a class="Tags" href="tag_sort.html">
+        <button type="button" class="btn btn-outline-secondary Tags_Buttons">Python</button>
+    </a>
+    <a class="Tags" href="tag_sort.html">
+        <button type="button" class="btn btn-outline-success Tags_Buttons">MySQL</button>
+    </a>
+    <a class="Tags" href="tag_sort.html">
+        <button type="button" class="btn btn-outline-danger Tags_Buttons">Django</button>
+    </a>
+    <a class="Tags" href="tag_sort.html">
+        <button type="button" class="btn btn-outline-warning Tags_Buttons">C++</button>
+    </a>
+    <a class="Tags" href="tag_sort.html">
+        <button type="button" class="btn btn-outline-info Tags_Buttons">GitHub</button>
+    </a>
+    <a class="Tags" href="tag_sort.html">
+        <button type="button" class="btn btn-outline-dark Tags_Buttons">Techno Park</button>
+    </a>
+{% endblock tags_panel %}
+
+{% block context %}
+    <div class="row Question_profile">
+        <div class="col-3">
+            <img class="Question_img" src="{% static 'img/56854.png' %}">
+        </div>
+        <div class="col-9">
+            <p class="active Question_title" aria-current="page">{{questions.title}}</p>
+            <p class="lead">{{questions.text}}</p>
+            <dic class="row">
+                <div class="cols-1"></div>
+                <div class="cols-10">
+                    <span class="Answers">Tags:</span>
+                    {% for i in questions.tags %}
+                        <span class="TagsValue">{{i}}</span>
+                    {% endfor %}
+                </div>
+                <div class="cols-1"></div>
+            </dic>
+        </div>
+        <div class="line"></div>
+{% endblock context %}

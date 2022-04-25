@@ -1,0 +1,23 @@
+{% load static %}
+
+<div class="row Question">
+    <div class="col-3">
+        <img class="Question_img" src="{% static "img/56854.png" %}">
+    </div>
+    <div class="col-9">
+        <a class="nav-link active Question_title" aria-current="page" href="{% url "question_url" question.id %}">{{question.title}}</a>
+        <p class="lead">{{question.text}}</p>
+        <dic class="row">
+        <div class="col-6">
+            <span class="Answers">Answers:</span>
+            <span class="AnswersValue">{{question.answers_count}}</span>
+        </div>
+        <div class="col-6">
+            <span class="Answers">Tags:</span>
+            {% for i in question.tags %}
+            <span class="TagsValue">{{i}}</span>
+            {% endfor %}
+        </div>
+        </dic>
+    </div>
+</div>

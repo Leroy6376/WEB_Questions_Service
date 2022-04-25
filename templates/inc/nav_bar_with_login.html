@@ -1,0 +1,19 @@
+{% extends "inc/nav_bar_tags.html" %}
+{% load static %}
+
+{% block account %}
+    <ul class="navbar-nav mb-2 mb-md-0 Avatar">
+        <li class="nav-item">
+
+            {% block login %}
+            {% endblock login %}
+
+        </li>
+        <li class="nav-item">
+
+            {% block avatar_img %}
+            {% endblock avatar_img %}
+
+        </li>
+    </ul>
+{% endblock account %}
