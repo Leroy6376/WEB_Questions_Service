@@ -7,8 +7,16 @@ QUESTIONS = [
         "tags": ["Lorem ipsum", "Techno Park", "Python"],
         "answers_count": "5",
         "id" : i,
+        "answers" : [
+            {
+            "login": "Leroy",
+            "text": f"Pellentesque luctus magna ultrices magna faucibus molestie. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec ac pulvinar nibh, eget congue nulla.",
+            "likes": i,
+            } for i in range(0,5)
+        ]
     } for i in range(1,5)
 ]
+
 
 # Create your views here.
 

@@ -1,14 +1,13 @@
 {% extends "inc/nav_bar_with_login.html" %}
 {% load static %}
-
 {% block login %}
-    <a class="nav-link active Login" aria-current="page" href="Leroy_profile.html">Leroy</a>
+    <a class="nav-link active Login"
+       aria-current="page"
+       href="Leroy_profile.html">Leroy</a>
 {% endblock login %}
-
 {% block avatar_img %}
     <img src="{% static "img/Avatar.png" %}" class="Avatar_img">
 {% endblock avatar_img %}
-
 {% block tags_panel %}
     <h1 class="mt-5 Tags-menu" text-align="center">Popular Tags</h1>
     <a class="Tags" href="tag_sort.html">
@@ -40,18 +39,22 @@
             <img class="Question_img" src="{% static 'img/56854.png' %}">
         </div>
         <div class="col-9">
-            <p class="active Question_title" aria-current="page">{{questions.title}}</p>
-            <p class="lead">{{questions.text}}</p>
+            <p class="active Question_title" aria-current="page">{{ questions.title }}</p>
+            <p class="lead">{{ questions.text }}</p>
             <dic class="row">
-                <div class="cols-1"></div>
-                <div class="cols-10">
-                    <span class="Answers">Tags:</span>
-                    {% for i in questions.tags %}
-                        <span class="TagsValue">{{i}}</span>
-                    {% endfor %}
-                </div>
-                <div class="cols-1"></div>
+            <div class="cols-1"></div>
+            <div class="cols-10">
+                <span class="Answers">Tags:</span>
+                {% for i in questions.tags %}<span class="TagsValue">{{i}}</span>{% endfor %}
+            </div>
+            <div class="cols-1"></div>
             </dic>
         </div>
         <div class="line"></div>
+    </div>
+
+        {% for answer in questions.answers %}
+            {% include "inc/answer.html" %}
+        {% endfor %}
+
 {% endblock context %}
