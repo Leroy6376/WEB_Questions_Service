@@ -5,7 +5,7 @@
         <img class="Question_img" src="{% static "img/56854.png" %}">
     </div>
     <div class="col-9">
-        <a class="nav-link active Question_title" aria-current="page" href="{% url "question_url" question.id %}">{{question.title}}</a>
+        <a class="nav-link active Question_title" aria-current="page" href="{% url "question_url" question.id 0 %}">{{question.title}}</a>
         <p class="lead">{{question.text}}</p>
         <dic class="row">
         <div class="col-6">

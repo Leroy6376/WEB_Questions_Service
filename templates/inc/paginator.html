@@ -1,0 +1,38 @@
+{% load static %}
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container Pag_menu">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item">
+                    {% block begining %}
+                    {% endblock begining %}
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% if page.previous >= 0 %}
+                    <li class="page-item">
+                        {% block previous %}
+                        {% endblock previous %}
+                    </li>
+                {% endif %}
+                <li class="page-item active">
+                    {% block current %}
+                    {% endblock current %}
+                </li>
+                {% if page.next <= page.max %}
+                    <li class="page-item">
+                        {% block next %}
+                        {% endblock next %}
+                    </li>
+                {% endif %}
+                <li class="page-item">
+                    {% block end %}
+                    {% endblock end %}
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>-
+                </li>
+            </ul>
+        </nav>
+    </div>
+</footer>

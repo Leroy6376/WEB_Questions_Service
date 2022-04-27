@@ -1,0 +1,33 @@
+{% extends "inc/nav_bar_tags.html" %}
+{% load static %}
+
+{% block context %}
+<h1 class="mt-5">Log in</h1>
+<div class="row Input">
+    <p class="Error">Sorry, wrong password or login! Try again.</p>
+</div>
+<form>
+    <div class="row Input">
+        <div class="col-2">
+            <h3>Login</h3>
+        </div>
+        <div class="col-8">
+            <input class="form-control me-2" type="search" placeholder="Your login"
+                aria-label="Search">
+        </div>
+    </div>
+
+    <div class="row Input">
+        <div class="col-2">
+            <h3>Password</h3>
+        </div>
+        <div class="col-8">
+            <input class="form-control me-2" type="search" placeholder="Your password"
+                aria-label="Search">
+            <a class="Tags" href="{% url 'log_in_user_url' %}">
+                <button type="button" class="btn btn-primary Add_Question_Button">Log in</button>
+            </a>
+        </div>
+    </div>
+</form>
+{% endblock context %}

@@ -15,6 +15,7 @@
         <link href="{% static "css/ask.css" %}" rel="stylesheet">
         <link href="{% static "css/Profile.css" %}" rel="stylesheet">
         <link href="{% static "css/question_1.css" %}" rel="stylesheet">
+        <link href="{% static "css/log_in_registration.css" %}" rel="stylesheet">
 
     </head>
     <body class="d-flex flex-column h-100">
@@ -35,10 +36,10 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <ul class="navbar-nav mb-2 mb-md-0 Navbar">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url "home" %}"%}">Home</a>
+                                <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="ask.html">Ask question</a>
+                                <a class="nav-link active" aria-current="page" href="{% url 'ask' %}">Ask question</a>
                             </li>
                         </ul>
                         <form class="d-flex">
@@ -50,8 +51,7 @@
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
 
-                        {% block account %}
-                        {% endblock account %}
+                        {% include "inc/account.html" %}                 
 
                     </div>
                 </div>
@@ -68,39 +68,19 @@
 
                     <div class="col-3 Tags-menu">
 
-                       {% block tags_panel %}
-                       {% endblock tags_panel %}
+                        <h1 class="mt-5 Tags-menu" text-align="center">Popular Tags</h1>
+
+                        {% for tag in tags %}
+                            {% include "inc/tag_button.html" %}
+                        {% endfor %}
                        
                     </div>
                 </div>
             </div>
-            <footer class="footer mt-auto py-3 bg-light">
-                <div class="container Pag_menu">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </footer>
+
+            {% block paginator %}
+            {% endblock paginator %}
+    
         </main>
     </body>
 </html>

@@ -1,14 +1,14 @@
 {% extends "inc/nav_bar_tags.html" %}
 {% load static %}
 
+{% block paginator %}
+    {% include "inc/tags_paginator.html" %}
+{% endblock paginator %}
+
+
 {% block context %}
-        <h1 class="mt-5">New Questions</h1>
+        <h1 class="mt-5">Tag: {{interested_tag.name}} </h1>
         {% for question in questions %}
             {% include "inc/question_on_list.html" %}
         {% endfor %}
 {% endblock context %}
-
-{% block paginator %}
-    {% include "inc/index_paginator.html" %}
-{% endblock paginator %}
-

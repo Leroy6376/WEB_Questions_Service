@@ -1,0 +1,23 @@
+{% load static %}
+
+{% if profile %}
+    <ul class="navbar-nav mb-2 mb-md-0 Avatar">
+        <li class="nav-item">
+            <a class="nav-link active Login" aria-current="page" href="{% url 'profile_url' profile.id %}">{{profile.nick}}</a>
+        </li>
+        <li class="nav-item">
+            <img src="{% static "img/avatar.png" %}" class="Avatar_img">
+        </li>
+    </ul>
+{% else %}
+    <ul class="navbar-nav mb-2 mb-md-0 Avatar_out">
+        <li class="nav-item">
+            <a class="nav-link active Login" aria-current="page" href="{% url 'log_in' %}">Log in</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active Login"
+               aria-current="page"
+               href="{% url 'register' %}">Register</a>
+        </li>
+    </ul>
+{% endif %}

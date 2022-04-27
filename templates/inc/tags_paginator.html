@@ -1,0 +1,22 @@
+{% extends "inc/paginator.html" %}
+{% load static %}
+
+{% block begining %}
+<a class="page-link" href="{% url 'tag_url' interested_tag.id 0 %}" aria-label="Previous">
+{% endblock begining %}
+
+{% block previous %}
+<a class="page-link" href="{% url 'tag_url' interested_tag.id page.previous %}">{{page.previous}}</a>
+{% endblock previous %}
+
+{% block current %}
+<a class="page-link" href="{% url 'tag_url' interested_tag.id page.current %}">{{page.current}}</a>
+{% endblock current %}
+
+{% block next %}
+<a class="page-link" href="{% url 'tag_url' interested_tag.id page.next %}">{{page.next }}</a>
+{% endblock next %}
+
+{% block end %}
+<a class="page-link" href="{% url 'tag_url' interested_tag.id page.max %}" aria-label="Next">
+{% endblock end %}
