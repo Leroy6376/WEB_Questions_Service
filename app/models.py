@@ -21,8 +21,6 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class ProfileManager(models.Manager):
     def __str__(self):
         return self.user.username
@@ -51,7 +49,7 @@ class Answer(models.Model):
     body = models.TextField()
     likes = GenericRelation(Like)
     creation_date = models.DateTimeField(auto_now_add=True)
-    author = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
     objects = AnswerManager
 
@@ -66,10 +64,10 @@ class Question(models.Model):
     body = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
     views = models.PositiveIntegerField()
-    avatar = models.ImageField(blank=True)
-    author = models.OneToOneField(Profile, on_delete=models.SET_NULL, blank=True, null=True)
-    tags = models.ManyToManyField(Tag)
-    answers = models.ForeignKey(Answer, on_delete=models.SET_NULL, blank=True, null=True)
+    avatar = models.ImageField(default="static/img/56854.png")
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, blank=True, null=True)
+    tags = models.ManyToManyField(Tag, blank=True)
+    answers = models.ManyToManyField(Answer, blank=True)
 
     objects = QuestionManager
 
