@@ -22,16 +22,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', views.index, name="home"),
-    path('hot/<int:page>/', views.hot, name="hot"),
-    path('question/<int:i>/<int:page>/', views.question, name="question_url"),
-    path('ask/',views.ask, name="ask"),
-    path('tags/<int:j>/<int:page>/', views.tag, name="tag_url"),
-    path('profile/<int:i>/', views.profile, name="profile_url"),
-    path('/', views.log_out, name="log_out"),
-    path('log_in/', views.log_in, name="log_in"),
-    path('register/', views.register, name="register"),
-    path('log_in/new/', views.new_user, name="log_in_user_url"),
-    path('register/new', views.new_user, name="new_user_url"),
+    path('<int:page>', views.new_question, name="new"),
+    path('hot/<int:page>', views.hot, name="hot"),
+    path('tag/<int:j>/<int:page>', views.tag, name="tag_url"),
 
+    path('question/<int:i>/<int:page>', views.question, name="question_url"),
+    path('ask/',views.ask, name="ask"),
+    path('profile/<int:i>', views.profile, name="profile_url"),
+    path('/', views.log_out, name="log_out"),
+    path('log_in', views.log_in, name="log_in"),
+    path('register', views.register, name="register"),
+    path('log_in/new', views.new_user, name="log_in_user_url"),
+    path('register/new', views.new_user, name="new_user_url"),
 
 ]

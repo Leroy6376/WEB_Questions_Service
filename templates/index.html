@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block context %}
-        <h1 class="mt-5">New Questions</h1>
+        <h1 class="mt-5">{{text}}</h1>
         {% for question in questions %}
             {% include "inc/question_on_list.html" %}
         {% endfor %}

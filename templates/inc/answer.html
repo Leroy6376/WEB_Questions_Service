@@ -2,15 +2,15 @@
 
 <div class="row Question">
     <div class="col-2">
-        <img class="Avatar_Question_img" src="{% static 'img/avatar.png' %}">
+        <img class="Avatar_Question_img" src=../../{{answer.author.avatar}}>
     </div>
     <div class="col-9">
-        <h3>{{answer.login}}</h3>
-        <p class="lead">{{answer.text}}</p>
+        <h3>{{answer.author.user.username}}</h3>
+        <p class="lead">{{answer.body}}</p>
         <dic class="row">
             <div class="col-6">
                 <input type="checkbox"/>
-                <label aria-label="like">&#128077  {{answer.likes}}</label>
+                <label aria-label="like">&#128077  {{answer.likes.count}}</label>
             </div>
         </dic>
     </div>

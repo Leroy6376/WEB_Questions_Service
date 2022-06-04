@@ -34,9 +34,12 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <ul class="navbar-nav mb-2 mb-md-0 Navbar">
+                        <ul class="navbar-nav mb-2 mb-md-0 Navbar" style="margin-right: 100px;">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'hot' 0 %}">Popular questions</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{% url 'ask' %}">Ask question</a>

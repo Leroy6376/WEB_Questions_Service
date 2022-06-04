@@ -7,7 +7,7 @@
 
 
 {% block context %}
-        <h1 class="mt-5">Tag: {{interested_tag.name}} </h1>
+        <h1 class="mt-5">Tag: {{name}} </h1>
         {% for question in questions %}
             {% include "inc/question_on_list.html" %}
         {% endfor %}

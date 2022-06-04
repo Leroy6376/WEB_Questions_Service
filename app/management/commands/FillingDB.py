@@ -13,7 +13,7 @@ class Command(BaseCommand):
         #Создание и загрузка тегов
         tags_file = "static/tags.txt"
         TAGS = open(tags_file).read().splitlines()
-        TAGS = TAGS[::3]
+        TAGS = TAGS[::2]
         TAGS_TO_CREATE = [models.Tag(name=i) for i in TAGS if len(i) > 3]
         models.Tag.objects.bulk_create(TAGS_TO_CREATE)
         print("Tags added successfully")
@@ -53,24 +53,10 @@ class Command(BaseCommand):
         #Создание и загрузка лайков для ответов
         answers = models.Answer.objects.get_queryset()
         profiles = models.Profile.objects.get_queryset()
-        answers_count = models.Answer.objects.count()
-        answer_model_type = ContentType.objects.get_for_model(ANSWERS_TO_CREATE[0])
+        profiles_count = models.Profile.objects.count()
+        answer_model_type = ContentType.objects.get_for_model(answers[0])
         
-        Likes_TO_CREATE = []
-        j = 0
-        k = 0
-        for i in range(0, 200):
-            if j == answers_count - 1:
-                j = 0
-
-            if k == profiles_count:
-                k = 0
-
-            Likes_TO_CREATE.append(models.Like(content_type=answer_model_type, object_id=answers[j].id, author=profiles[k]))
-            i += 1
-            j += 1
-            k += 1
-
+        Likes_TO_CREATE = [models.Like(content_type=answer_model_type, object_id=answer.id, author=profiles[random.randint(0, profiles_count - 1)]) for k in range(0,2) for answer in answers]
         models.Like.objects.bulk_create(Likes_TO_CREATE)
         print("Likes added successfully")
 
@@ -79,42 +65,26 @@ class Command(BaseCommand):
         QUESTIONS = open(questions_file).read().splitlines()
         QUESTIONS = QUESTIONS[::2]
 
-        tags = models.Tag.objects.get_queryset()
-        temp_answer = 0
-        QUESTIONS_TO_CREATE = []
-        k = 0
-        g = 0
-        p = 0
         questions_count = len(QUESTIONS)
-        for i in range(0, 110000):
-            tags_count = random.randint(1, 10)
-            TAG = []
-            for j in range(0, tags_count):
-                TAG.append(tags[random.randint(0, models.Tag.objects.count())])
-            
-            answer = []
-            for j in range(temp_answer, temp_answer + 11):
-                answer.append(answers[j])
-            temp_answer += 11
+        answers_count = models.Answer.objects.count()
+        ANSWERS = models.Answer.objects.get_queryset()
+        profiles_count = models.Profile.objects.count()
 
-            if k == answers_count - 1:
-                k = 0
-
-            if g == questions_count:
-                g = 0
-
-            if p == profiles_count:
-                p = 0
-            
-            QUESTION = models.Question(header=ANSWERS[k], body=QUESTIONS[g], author=profiles[p])
-            tag = models.Tag.objects.get_queryset()
-            QUESTION.tags.add(tag[0].id)
-            QUESTIONS_TO_CREATE.append(QUESTION)
-            k += 1
-            g += 1
-            p += 1
-
+        QUESTIONS_TO_CREATE = [models.Question(header=ANSWERS[random.randint(0, answers_count - 1)].body, body=QUESTIONS[random.randint(0, questions_count - 1)], author=profiles[random.randint(0, profiles_count - 1)]) for i in range(0, 110000)]
         models.Question.objects.bulk_create(QUESTIONS_TO_CREATE)
+
+        answer = models.Answer.objects.get_queryset()
+        tag = models.Tag.objects.get_queryset()
+        QUESTIONs = models.Question.objects.get_queryset()
+        for QUESTION in QUESTIONs:
+            tags_count = random.randint(1, 10)
+            tags_start = random.randint(0, tag.count() - 10)
+            QUESTION.tags.set(tag[tags_start : tags_start + tags_count])
+
+            answers_count = random.randint(1, 10)
+            answers_start = random.randint(0, answer.count() - 10)
+            QUESTION.answers.set(answer[answers_start : answers_start + answers_count])
+            
         print("Question added successfully")
         print("Database populated successfully")
 

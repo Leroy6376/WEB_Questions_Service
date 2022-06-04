@@ -4,20 +4,20 @@
 {% block context %}
     <div class="row Question_profile">
         <div class="col-3">
-            <img class="Question_img" src="{% static 'img/56854.png' %}">
+            <img class="Question_img" src=../../{{question.avatar}}>
         </div>
         <div class="col-9">
             <p class="active Question_title" aria-current="page">
-                {{ questions.title }}
+                {{ question.header }}
             </p>
             <p class="lead">
-                {{ questions.text }}
+                {{ question.body }}
             </p>
             <dic class="row">
             <div class="cols-1"></div>
             <div class="cols-10">
                 <span class="Answers">Tags:</span>
-                {% for i in questions.tags %}<span class="TagsValue">{{i}}</span>{% endfor %}
+                {% for tag in question.tags.get_queryset %}<span class="TagsValue">{{tag}}</span>{% endfor %}
             </div>
             <div class="cols-1"></div>
             </dic>
