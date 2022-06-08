@@ -1,17 +1,11 @@
-from contextlib import nullcontext
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.contrib import auth 
+from app.forms import LoginForm
 from . import models
 from django.core.paginator import Paginator
 
-
-PROFILE = {
-    "id" : 1,
-    "login" : "Leroy6376",
-    "avatar" : "img/avatar.png",
-    "nick" : "Leroy",
-    "email" : "roza4466@mail.ru"
-}
-
+PROFILE = {}
 
 
 # Create your views here.
@@ -45,7 +39,19 @@ def log_out(request):
 
 def log_in(request):
     TAGS = models.TagManager.GetHotTags(9)
-    return render(request, "log_in.html", {"tags" : TAGS})
+    if request.method == "GET":
+        form = LoginForm()
+    elif request.method == "POST":
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            user = auth.authenticate(request, **form.cleaned_data)
+            if user:
+                auth.login(request, user)
+                print("TYT")
+                print(request)
+                return redirect(reverse("home"))
+    
+    return render(request, "login.html", {"tags" : TAGS, "form" : form})
 
 def new_user(request):
     PROFILE["id"] = 1

@@ -2,6 +2,28 @@ main > .container {
     padding: 60px 0 10px 0;
   }
 
+.Form_input {
+    width: 300px;
+    font-size: 16px;
+}
+
+.Form_label {
+    display: inline-block;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+.Form_error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+
+.Form_button {
+    min-width: 200px;
+    font-size: 16px;
+}
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
