@@ -21,11 +21,15 @@ def question(request, i:int, page:int):
     ANSWERS = p.page(page + 1)
     PAGES = get_page_struct(page, p.num_pages)
     TAGS = models.TagManager.GetHotTags(9)
+    if request.user.is_authenticated:
+        PROFILE = models.Profile.objects.get(pk=request.user.id)
     
     return render(request, "question.html", {"question" : QUESTION, "answers" : ANSWERS, "tags" : TAGS, "profile" : PROFILE, "page" : PAGES})
 
 def ask(request):
     TAGS = models.TagManager.GetHotTags(9)
+    if request.user.is_authenticated:
+        PROFILE = models.Profile.objects.get(pk=request.user.id)
     return render(request, "ask.html", {"tags" : TAGS, "profile" : PROFILE})
 
 
@@ -34,7 +38,7 @@ def profile(request, i:int):
     return render(request, "profile.html", {"tags" : TAGS, "profile" : PROFILE})
 
 def log_out(request):
-    PROFILE.clear()
+    auth.logout(request)
     return index(request)
 
 def log_in(request):
@@ -47,8 +51,9 @@ def log_in(request):
             user = auth.authenticate(request, **form.cleaned_data)
             if user:
                 auth.login(request, user)
-                print("TYT")
-                print(request)
+                print(request.user.is_authenticated)
+                profile = models.Profile.objects.get(pk=request.user.id)
+                print(profile.avatar)
                 return redirect(reverse("home"))
     
     return render(request, "login.html", {"tags" : TAGS, "form" : form})
@@ -73,6 +78,8 @@ def tag(request, j:int, page:int):
     QUESTION = p.page(page + 1)
     PAGES = get_page_struct(page, p.num_pages)
     TAGS = models.TagManager.GetHotTags(9)
+    if request.user.is_authenticated:
+        PROFILE = models.Profile.objects.get(pk=request.user.id)
     return render(request, "tag.html", {"questions" : QUESTION, "tags" : TAGS, "profile" : PROFILE, "page" : PAGES, "id" : j, "name" : Tag.name})
 
 def hot(request, page:int):
@@ -97,4 +104,6 @@ def question_list(request, page, QUESTION, PROFILE, TEXT, LINK):
     QUESTION = p.page(page + 1)
     PAGES = get_page_struct(page, p.num_pages)
     TAGS = models.TagManager.GetHotTags(9)
+    if request.user.is_authenticated:
+        PROFILE = models.Profile.objects.get(pk=request.user.id)
     return render(request, "index.html", {"questions" : QUESTION, "tags" : TAGS, "profile" : PROFILE, "page" : PAGES, "text" : TEXT, "link" : LINK})

@@ -1,6 +1,5 @@
 {% extends "inc/nav_bar_tags.html" %}
 {% load static %}
-{% load bootstrap4 %}
 
 {% block context %}
 <h1 class="mt-5 ">Log in</h1>
@@ -13,11 +12,11 @@
     <div class="col-8">
         <form action="/login" method="post">
             {% csrf_token %}
-            <div class="Form_error">{{ form.non_field_errors }}</div>
+            <div class="form_error">{{ form.non_field_errors }}</div>
 
             {% for f in form %}
-                <p><label class="Form_label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
-                <div class="Form_error">{{ f.errors }}</div>
+                <p><label class="form_label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+                <div class="form_error">{{ f.errors }}</div>
             {% endfor %}
             <button type="submit" class="btn btn-primary Add_Question_Button">Log in</button>
         </form>
