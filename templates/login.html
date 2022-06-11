@@ -2,12 +2,7 @@
 {% load static %}
 
 {% block context %}
-<h1 class="mt-5 ">Log in</h1>
-    <div class="row Input">
-        {% if form.errors %}
-            <p class="Error">Sorry, wrong password or login! Try again.</p>
-        {% endif %}
-    </div>
+<h1 class="mt-5 form_header">Log in</h1>
 <div class="row Input">
     <div class="col-8">
         <form action="/login" method="post">

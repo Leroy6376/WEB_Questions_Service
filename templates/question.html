@@ -32,3 +32,32 @@
 {% block paginator %}
 {% include "inc/answer_paginator.html" %}
 {% endblock paginator %}
+
+{% block answer%}
+<div class="row">
+    <h1 class="mt-5 Answer_button">Answer the question:</h1>
+    {% if is_register %}
+    {% else %}
+        <p class="margin">Sorry, only registered users can answer questions</p>
+    {% endif %}
+    <div class="row Input">
+        <div class="col-8">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form_error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+                <p>{{ f }}</p>
+                <div class="form_error">{{ f.errors }}</div>
+            {% endfor %}
+
+            {% if is_register %}
+                <button type="submit" class="btn btn-primary Add_Question_Button">Answer</button>
+            {% else %}
+                <button disabled type="submit" class="btn btn-primary Add_Question_Button">Answer</button>
+            {% endif %}
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock answer%}

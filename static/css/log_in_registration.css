@@ -13,9 +13,17 @@
     display: inline-block;
     min-width: 150px;
     vertical-align: top;
+    font-size: 1.5rem;
 }
 
 .form_error ul {
+    margin-left: 150px;
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+.form_error_registration ul {
+    margin-left: 215px;
     list-style: none;
     padding: 0;
     color: #CC0000;
@@ -24,5 +32,13 @@
 .form_button {
     min-width: 200px;
     font-size: 16px;
+}
+
+.form_header {
+    margin-bottom: 50px;
+}
+
+.avatar_input {
+    margin-left: 150px;
 }
 

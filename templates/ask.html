@@ -2,37 +2,15 @@
 {% load static %}
 
 {% block context %}
-<h1 class="mt-5">New Question</h1>
-<form>
-    <div class="row Input">
-        <div class="col-1">
-            <h3>Title</h3>
-        </div>
-        <div class="col-8">
-            <input class="form-control me-2" type="search" placeholder="Question heading"
-                aria-label="Search">
-        </div>
-    </div>
+<h1 class="mt-5 form_header">New Question</h1>
+<form action="/ask/" method="post">
+    {% csrf_token %}
+    <div class="form_error">{{ form.non_field_errors }}</div>
 
-    <div class="row Input">
-        <div class="col-1">
-            <h3>Text</h3>
-        </div>
-        <div class="col-8">
-            <textarea class="form-control me-2" cols="30" rows="10" type="search"
-                placeholder="The text of your question"></textarea>
-        </div>
-    </div>
-
-    <div class="row Input">
-        <div class="col-1">
-            <h3>Tags</h3>
-        </div>
-        <div class="col-8">
-            <input class="form-control me-2" type="search" placeholder="Question tags"
-                aria-label="Search">
-            <button type="button" class="btn btn-success Add_Question_Button">Ask</button>
-        </div>
-    </div>
+    {% for f in form %}
+        <p><label class="form_label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+        <div class="form_error">{{ f.errors }}</div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary Add_Question_Button">Ask</button>
 </form>
 {% endblock context %}

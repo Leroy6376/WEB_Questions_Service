@@ -29,10 +29,8 @@ urlpatterns = [
     path('question/<int:i>/<int:page>', views.question, name="question_url"),
     path('ask/',views.ask, name="ask"),
     path('profile/<int:i>', views.profile, name="profile_url"),
-    path('/', views.log_out, name="log_out"),
+    path('log_out', views.log_out, name="log_out"),
     path('login', views.log_in, name="login"),
     path('register', views.register, name="register"),
-    path('log_in/new', views.new_user, name="log_in_user_url"),
-    path('register/new', views.new_user, name="new_user_url"),
 
 ]

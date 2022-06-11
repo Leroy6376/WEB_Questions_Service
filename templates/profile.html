@@ -1,65 +1,26 @@
 {% extends "inc/nav_bar_tags.html" %}
 {% load static %}
 {% block context %}
-    <h1 class="mt-5">{{profile.nick}}: Settings</h1>
+    <h1 class="mt-5 form_header">{{profile.user.username}}: Settings</h1>
     <div class="row Input">
-        <a class="nav-link active log_out"
-           aria-current="page"
-           href="{% url 'log_out' %}">Log out</a>
+        <div class="col-8">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form_error">{{ form.non_field_errors }}</div>
+    
+                {% for f in form %}
+                {% if f.label == "Avatar" %}
+                    <p><label class="form_label" for="{{ f.id_for_label }}">{{f.label}}: </label>
+                    <img src=../../{{profile.avatar}} class="Avatar_profile_img"></p>
+                    <p class="avatar_input">{{ f }}</p>
+                    <div class="form_error">{{ f.errors }}</div>
+                {% else %}
+                    <p><label class="form_label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+                    <div class="form_error">{{ f.errors }}</div>
+                {% endif %}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary Add_Question_Button">Change</button>
+            </form>
+        </div>
     </div>
-    <form>
-        <div class="row Input">
-            <div class="col-2">
-                <h3>Login</h3>
-            </div>
-            <div class="col-8">
-                <input class="form-control me-2"
-                       type="search"
-                       placeholder={{profile.login}}
-                       aria-label="Search">
-            </div>
-        </div>
-        <div class="row Input">
-            <div class="col-2">
-                <h3>Email</h3>
-            </div>
-            <div class="col-8">
-                <input class="form-control me-2"
-                       type="search"
-                       placeholder={{profile.email}}
-                       aria-label="Search">
-            </div>
-        </div>
-        <div class="row Input">
-            <div class="col-2">
-                <h3>NickName</h3>
-            </div>
-            <div class="col-8">
-                <input class="form-control me-2"
-                       type="search"
-                       placeholder={{profile.nick}}
-                       aria-label="Search">
-            </div>
-        </div>
-        <div class="row Input">
-            <div class="col-2">
-                <h3>Upload avatar</h3>
-            </div>
-            <div class="col-8">
-                <img src="{% static 'img/avatar.png' %}" class="Avatar_profile_img">
-                <div class="row">
-                    <div class="col-4">
-                        <input class="form-control me-2"
-                               type="search"
-                               placeholder={{profile.avatar}}
-                               aria-label="Search">
-                    </div>
-                    <div class="col-4">
-                        <button type="button" class="btn btn-primary">Choose</button>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success Add_Question_Button">Save changes</button>
-            </div>
-        </div>
-    </form>
 {% endblock context %}

@@ -84,7 +84,7 @@ class Command(BaseCommand):
             answers_count = random.randint(1, 10)
             answers_start = random.randint(0, answer.count() - 10)
             QUESTION.answers.set(answer[answers_start : answers_start + answers_count])
-            
+  
         print("Question added successfully")
         print("Database populated successfully")
 

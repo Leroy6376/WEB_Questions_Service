@@ -95,6 +95,15 @@ main > .container {
     margin: 20px 10px;
 }
 
+.Answer_button {
+    margin-left: 25px;
+    font-size: 2rem;
+}
+
 .Avatar_out {
     margin-left: 400px;
+}
+
+.margin {
+    margin-left: 25px;
 }
