@@ -1,6 +1,4 @@
 from contextlib import nullcontext
-from faulthandler import disable
-from pyexpat import model
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib import auth 
@@ -29,10 +27,8 @@ def question(request, i:int, page:int):
     if request.method == "GET":
         if PROFILE:
             form = AnswerForm()
-            is_register = True
         else:
             form = AnswerForm(disabled=True)
-            is_register = False
     elif request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
@@ -42,7 +38,7 @@ def question(request, i:int, page:int):
             p = Paginator(ANSWERS, 4)
             return redirect(reverse("question_url", args=[i, p.num_pages - 1]))
 
-    return render(request, "question.html", {"question" : QUESTION, "answers" : ANSWERS, "tags" : TAGS, "profile" : PROFILE, "page" : PAGES, "form" :form, "is_register" : is_register})
+    return render(request, "question.html", {"question" : QUESTION, "answers" : ANSWERS, "tags" : TAGS, "profile" : PROFILE, "page" : PAGES, "form" :form})
 
 def ask(request):
     TAGS = models.TagManager.GetHotTags(9)
