@@ -102,13 +102,11 @@ def register(request):
     elif request.method == "POST":
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            user = User.objects.create_user(username=form.clean_username(), email=form.cleaned_data["email"], password=form.cleaned_data["password"])
-            if form.cleaned_data["avatar"] == None:
-                models.Profile.objects.create(user=user)
-            else:
-                # сохранение аватарки пользователя
-                models.Profile.objects.create(user=user, avatar=form.cleaned_data["avatar"])
-            auth.login(request, user)
+            # сохранение аватарки пользователя
+            form.save()
+            user = User.objects.get_queryset().filter(username=form.cleaned_data['username'])
+            models.Profile.objects.create(user=user[0], avatar=form.cleaned_data['avatar'])
+            auth.login(request, user[0])
             return redirect(reverse("home"))
     
     return render(request, "register.html", {"tags" : TAGS, "form" : form})

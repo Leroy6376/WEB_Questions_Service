@@ -15,7 +15,7 @@ class LoginForm(forms.Form):
             raise forms.ValidationError("Sorry, wrong password or login! Try again.")
     
 
-class RegistrationForm(forms.Form):
+class RegistrationForm(forms.ModelForm):
     username = forms.CharField(label="User name", widget=forms.TextInput(attrs={'class': 'form-control-lg', 'placeholder': 'Your user name'}))
     email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-control-lg', 'placeholder': 'Your email'}))
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control-lg', 'placeholder': 'Your password'}))
@@ -35,6 +35,10 @@ class RegistrationForm(forms.Form):
         if User.objects.filter(username=data).exists():
             raise forms.ValidationError("A user with the same name already exists")
         return data
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
 
 
 class QuestionForm(forms.ModelForm):
