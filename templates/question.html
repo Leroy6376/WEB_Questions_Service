@@ -36,7 +36,7 @@
 {% block answer%}
 <div class="row">
     <h1 class="mt-5 Answer_button">Answer the question:</h1>
-    {% if profile %}
+    {% if request.user.profile %}
     {% else %}
         <p class="margin">Sorry, only registered users can answer questions</p>
     {% endif %}
@@ -51,7 +51,7 @@
                 <div class="form_error">{{ f.errors }}</div>
             {% endfor %}
 
-            {% if profile %}
+            {% if request.user.profile %}
                 <button type="submit" class="btn btn-primary Add_Question_Button">Answer</button>
             {% else %}
                 <button disabled type="submit" class="btn btn-primary Add_Question_Button">Answer</button>
