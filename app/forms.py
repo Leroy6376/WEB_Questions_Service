@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from dataclasses import fields
 from django import forms
 from django.contrib import auth
@@ -38,7 +39,18 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password', 'avatar']
+
+    def save(self, *args, **kwargs):
+        user = super().save()
+        
+        if self.cleaned_data['avatar'] != None:
+            models.Profile.objects.create(user=user, avatar=self.cleaned_data['avatar'])
+        else:
+            models.Profile.objects.create(user=user)
+
+        return user
+
 
 
 class QuestionForm(forms.ModelForm):
@@ -72,10 +84,25 @@ class AnswerForm(forms.ModelForm):
         if disabled:
             self.fields['body'].disabled = True
 
+    def save(self, *args, **kwargs):
+        answer = models.Answer.objects.create(body=self.cleaned_data['body'], author=args[1])
+        args[0].answers.add(answer)
+        return answer
+
 class ProfileForm(forms.ModelForm):
     username = forms.CharField(label="User name", widget=forms.TextInput(attrs={'class': 'form-control-lg'}))
     email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-control-lg'}))
-    avatar = forms.ImageField(label="Avatar", required=False)
+    avatar = forms.ImageField(label="Avatar")
+
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'avatar']
+
+    def save(self, *args, **kwargs):
+        user = super().save()
+
+        profile = user.profile
+        profile.avatar = self.cleaned_data['avatar']
+        profile.save()
+
+        return user

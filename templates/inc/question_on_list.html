@@ -7,17 +7,20 @@
     <div class="col-9">
         <a class="nav-link active Question_title" aria-current="page" href="{% url "question_url" question.id 0 %}">{{question.header}}</a>
         <p class="lead">{{question.body}}</p>
-        <dic class="row">
-        <div class="col-6">
-            <span class="Answers">Answers:</span>
-            <span class="AnswersValue">{{question.answers.count}}</span>
+        <div class="row">
+            <div class="col-2">
+                <button>Like {{question.likes.count}} &#128077</button>
+            </div>
+            <div class="col-3">
+                <span class="Answers">Answers:</span>
+                <span class="AnswersValue">{{question.answers.count}}</span>
+            </div>
+            <div class="col-7">
+                <span class="Answers">Tags:</span>
+                {% for tag in question.tags.get_queryset %}
+                    <span class="TagsValue">{{tag}}</span>
+                {% endfor %}
+            </div>
         </div>
-        <div class="col-6">
-            <span class="Answers">Tags:</span>
-            {% for tag in question.tags.get_queryset %}
-                <span class="TagsValue">{{tag}}</span>
-            {% endfor %}
-        </div>
-        </dic>
     </div>
 </div>

@@ -6,7 +6,11 @@
             <a class="nav-link active Login" aria-current="page" href="{% url 'profile_url' profile.id %}">{{profile.user.username}}</a>
         </li>
         <li class="nav-item">
-            <img src=../../{{profile.avatar}} class="Avatar_img">
+            {% if profile.avatar == "static/img/avatar.png" %}
+                <img src=../../{{profile.avatar}} class="Avatar_img">
+            {% else %}
+                <img src={{profile.avatar.url}} class="Avatar_img">
+            {% endif %}
         </li>
         <li class="nav-item">
             <a class="nav-link active Login" aria-current="page" href="{% url 'log_out' %}">Log out</a>

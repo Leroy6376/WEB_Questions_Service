@@ -4,14 +4,14 @@
     <h1 class="mt-5 form_header">{{profile.user.username}}: Settings</h1>
     <div class="row Input">
         <div class="col-8">
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form_error">{{ form.non_field_errors }}</div>
     
                 {% for f in form %}
                 {% if f.label == "Avatar" %}
                     <p><label class="form_label" for="{{ f.id_for_label }}">{{f.label}}: </label>
-                    <img src=../../{{profile.avatar}} class="Avatar_profile_img"></p>
+                    <img src={{profile.avatar.url}} class="Avatar_profile_img"></p>
                     <p class="avatar_input">{{ f }}</p>
                     <div class="form_error">{{ f.errors }}</div>
                 {% else %}

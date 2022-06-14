@@ -1,4 +1,5 @@
 from contextlib import nullcontext
+from django.forms import model_to_dict
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib import auth 
@@ -32,8 +33,7 @@ def question(request, i:int, page:int):
     elif request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
-            answer = models.Answer.objects.create(body=form.cleaned_data['body'], author=PROFILE)
-            QUESTION.answers.add(answer)
+            form.save(QUESTION, PROFILE)
             ANSWERS = models.QuestionManager.GetAnswers(QUESTION)
             p = Paginator(ANSWERS, 4)
             return redirect(reverse("question_url", args=[i, p.num_pages - 1]))
@@ -49,15 +49,14 @@ def ask(request):
     elif request.method == "POST":
         form = QuestionForm(request.POST)
         if form.is_valid():
-            form.save()
-            Question = models.Question.objects.filter(header=form.cleaned_data['header'], body=form.cleaned_data['body']).order_by("-creation_date")
+            question = form.save()
             if form.cleaned_data["new_tag"] != nullcontext:
                 New_tags = form.cleaned_data["new_tag"].split()
                 for tag in New_tags:
                     tag = models.Tag.objects.create(name=tag)
-                    Question[0].tags.add(tag.id)
+                    question.tags.add(tag.id)
                    
-            return redirect(reverse("question_url", args=[Question[0].id, 0]))
+            return redirect(reverse("question_url", args=[question.id, 0]))
 
     return render(request, "ask.html", {"tags" : TAGS, "profile" : PROFILE, "form" : form})
 
@@ -67,12 +66,15 @@ def profile(request, i:int):
     PROFILE = profile_check(request)
 
     if request.method == "GET":
-        form = ProfileForm(instance=PROFILE.user)
+        initial_data = model_to_dict(request.user)
+        initial_data['avatar'] = PROFILE.avatar
+        form = ProfileForm(initial=initial_data)
     elif request.method == "POST":
-        form = ProfileForm(data=request.POST, instance=PROFILE.user)
+        form = ProfileForm(request.POST, request.FILES, instance=PROFILE.user)
         if form.is_valid():
-            #Обработка новой аватарки от пользователя
             form.save()
+            return redirect(reverse("profile_url", args=[PROFILE.id]))
+
     return render(request, "profile.html", {"tags" : TAGS, "profile" : PROFILE, "form" : form})
 
 def log_out(request):
@@ -102,11 +104,8 @@ def register(request):
     elif request.method == "POST":
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            # сохранение аватарки пользователя
-            form.save()
-            user = User.objects.get_queryset().filter(username=form.cleaned_data['username'])
-            models.Profile.objects.create(user=user[0], avatar=form.cleaned_data['avatar'])
-            auth.login(request, user[0])
+            user = form.save()
+            auth.login(request, user)
             return redirect(reverse("home"))
     
     return render(request, "register.html", {"tags" : TAGS, "form" : form})

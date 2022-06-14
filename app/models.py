@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -35,7 +36,7 @@ class ProfileManager(models.Manager):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    avatar = models.ImageField(default="static/img/avatar.png", upload_to='static/img/')
+    avatar = models.ImageField(default="static/img/avatar.png", upload_to='avatar/%Y/%m/%d/')
 
     def __str__(self):
         return self.user.username
@@ -117,10 +118,11 @@ class Question(models.Model):
     body = models.TextField()
     creation_date = models.DateTimeField(auto_now_add=True)
     views = models.PositiveIntegerField(default=0)
-    avatar = models.ImageField(default="static/img/56854.png", upload_to='static/img/')
+    avatar = models.ImageField(default="static/img/56854.png")
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, blank=True, null=True)
     tags = models.ManyToManyField(Tag, blank=True)
     answers = models.ManyToManyField(Answer, blank=True)
+    likes = GenericRelation(Like)
 
     def __str__(self):
         return self.header
