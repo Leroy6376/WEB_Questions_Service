@@ -1,6 +1,6 @@
 {% load static %}
 
-{% if request.user %}
+{% if request.user.is_authenticated %}
     <ul class="navbar-nav mb-2 mb-md-0 Avatar">
         <li class="nav-item">
             <a class="nav-link active Login" aria-current="page" href="{% url 'profile_url' request.user.profile.id %}">{{request.user.username}}</a>

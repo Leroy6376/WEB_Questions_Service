@@ -46,7 +46,7 @@ class Profile(models.Model):
 class LikeManager(models.Manager):
     def add_like(obj, user):
         obj_type = ContentType.objects.get_for_model(obj)
-        like, is_created = Like.objects.get_or_create(content_type=obj_type, object_id=obj.id, author=user)
+        like = Like.objects.create(content_type=obj_type, object_id=obj.id, author=user)
         return like
 
     def remove_like(obj, user):
@@ -74,14 +74,21 @@ class Like(models.Model):
     objects = LikeManager
 
 class AnswerManager(models.Manager):
-    def __str__(self):
-        return self.author.user.username + " : " + self.body 
+    def change_correct(answer_id, value):
+        answer = Answer.objects.get(pk=answer_id)
+        if value == "false":
+            answer.is_correct = False
+        else: 
+            answer.is_correct = True
+        answer.save()
+        return answer
 
 class Answer(models.Model):
     body = models.TextField()
     likes = GenericRelation(Like)
     creation_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    is_correct = models.BooleanField(default=False)
 
     def __str__(self):
         return self.author.user.username + " : " + self.body

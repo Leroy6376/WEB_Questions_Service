@@ -1,5 +1,7 @@
 from contextlib import nullcontext
+import json
 from django.forms import model_to_dict
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib import auth 
@@ -7,6 +9,7 @@ from app.forms import AnswerForm, LoginForm, ProfileForm, QuestionForm, Registra
 from . import models
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -45,13 +48,7 @@ def ask(request):
     elif request.method == "POST":
         form = QuestionForm(request.POST)
         if form.is_valid():
-            question = form.save()
-            if form.cleaned_data["new_tag"] != nullcontext:
-                New_tags = form.cleaned_data["new_tag"].split()
-                for tag in New_tags:
-                    tag = models.Tag.objects.create(name=tag)
-                    question.tags.add(tag.id)
-                   
+            question = form.save(request.user.profile)     
             return redirect(reverse("question_url", args=[question.id, 0]))
 
     return render(request, "ask.html", {"tags" : TAGS, "form" : form})
@@ -137,3 +134,35 @@ def question_list(request, page, QUESTION, TEXT, LINK):
     TAGS = models.TagManager.GetHotTags(9)
     return render(request, "index.html", {"questions" : QUESTION, "tags" : TAGS, "page" : PAGES, "text" : TEXT, "link" : LINK})
 
+
+def question_vote(request):
+    question_id = request.POST['question_id']
+    question = models.Question.objects.get(pk=question_id)
+    if not models.LikeManager.is_fan(question, request.user.profile):
+        models.LikeManager.add_like(question, request.user.profile)
+    else:
+        models.LikeManager.remove_like(question, request.user.profile)
+
+    new_rating = question.likes.count()
+    return JsonResponse({'new_rating' : new_rating})
+
+def answer_vote(request):
+    print(request.POST)
+    answer_id = request.POST['answer_id']
+    answer = models.Answer.objects.get(pk=answer_id)
+    if not models.LikeManager.is_fan(answer, request.user.profile):
+        models.LikeManager.add_like(answer, request.user.profile)
+    else:
+        models.LikeManager.remove_like(answer, request.user.profile)
+
+    new_rating = answer.likes.count()
+    return JsonResponse({'new_rating' : new_rating})
+
+def checkbox_vote(request):
+    print(request.POST)
+    answer_id = request.POST['answer_id']
+    question_id = request.POST['question_id']
+    value = request.POST['value']
+    
+    answer = models.AnswerManager.change_correct(answer_id, value)
+    return JsonResponse({'value' : answer.is_correct})

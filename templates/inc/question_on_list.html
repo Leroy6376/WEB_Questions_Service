@@ -9,7 +9,12 @@
         <p class="lead">{{question.body}}</p>
         <div class="row">
             <div class="col-2">
-                <button>Like {{question.likes.count}} &#128077</button>
+                {% csrf_token %}
+                {% if request.user.is_authenticated %}
+                    <button class='button-likes' type='button' data-id={{question.id}}>Like {{question.likes.count}}</button>
+                {% else %}
+                    <button disabled >Like {{question.likes.count}}</button>
+                {% endif %}
             </div>
             <div class="col-3">
                 <span class="Answers">Answers:</span>

@@ -71,6 +71,16 @@ class QuestionForm(forms.ModelForm):
                raise forms.ValidationError(('This tag already exists: %(value)s'), params={'value': d})
         return data
 
+    def save(self, *args, **kwargs):
+        question = models.Question.objects.create(header=self.cleaned_data['header'], body=self.cleaned_data['body'], author=args[0])
+        question.tags.set(self.cleaned_data['tags'])
+        if self.cleaned_data["new_tag"] != nullcontext:
+            New_tags = self.cleaned_data["new_tag"].split()
+            for tag in New_tags:
+                tag = models.Tag.objects.create(name=tag)
+                question.tags.add(tag.id)
+        return question
+
 class AnswerForm(forms.ModelForm):
     body = forms.CharField(label="", widget=forms.Textarea(attrs={'class': 'form-control-lg', 'style': 'height:150px', 'name' : ''}))
     

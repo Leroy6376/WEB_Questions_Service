@@ -51,7 +51,7 @@
                 <div class="form_error">{{ f.errors }}</div>
             {% endfor %}
 
-            {% if request.user.profile %}
+            {% if request.user.is_authenticated %}
                 <button type="submit" class="btn btn-primary Add_Question_Button">Answer</button>
             {% else %}
                 <button disabled type="submit" class="btn btn-primary Add_Question_Button">Answer</button>

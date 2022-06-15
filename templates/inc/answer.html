@@ -13,10 +13,26 @@
         <p class="lead">{{answer.body}}</p>
         <dic class="row">
             <div class="col-6">
-                <button>Like {{answer.likes.count}} &#128077</button>
+                {% if request.user.is_authenticated %}
+                    <button class='likes-answer' type='button' data-id={{answer.id}}>Like {{answer.likes.count}}</button>
+                {% else %}
+                    <button disabled >Like {{answer.likes.count}}</button>
+                {% endif %}
             </div>
             <div class="col-6">
-                <input type="checkbox"/>
+                {% if answer.is_correct %}
+                    {% if request.user.profile == question.author %}
+                        <input id="checkbox" data-question={{question.id}} data-answer={{answer.id}} type="checkbox" checked>
+                    {% else %}
+                        <input type="checkbox" disabled checked/>
+                    {% endif %}
+                {% else %}
+                    {% if request.user.profile == question.author %}
+                        <input id="checkbox" type="checkbox" data-question={{question.id}} data-answer={{answer.id}}>
+                    {% else %}
+                        <input type="checkbox" disabled/>
+                    {% endif %}
+                {% endif %}
                 <label>Correct answer</label>
             </div>
         </dic>
